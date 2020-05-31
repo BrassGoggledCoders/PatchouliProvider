@@ -10,6 +10,7 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'xyz.brassgoggledcoders'
