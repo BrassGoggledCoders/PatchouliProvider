@@ -1,0 +1,65 @@
+buildscript {
+    repositories {
+        maven { url 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'maven-publish'
+
+group 'xyz.brassgoggledcoders'
+version '1.15.2-' + getVersion()
+archivesBaseName = "PatchouliProvider"
+
+minecraft {
+    mappings channel: "snapshot", version: "20200530-1.15.1"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://maven.blamejared.com"
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.15.2-31.0.14"
+    compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-29.147")
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://" + (System.getenv("local_maven") != null ? System.getenv("local_maven") : System.getenv("bamboo_local_maven")))
+        }
+    }
+}
+
+String getVersion() {
+    String version = "1.0.0"
+    String branch = project.hasProperty("branch") ? project.branch : ""
+
+    if (branch != "") {
+        version += "-" + branch
+
+        String buildNumber = getBuildNumber()
+        if (buildNumber != "") {
+            version += "." + buildNumber
+        }
+    }
+
+    return version
+}
+
+static String getBuildNumber() {
+    String buildNumber = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : ""
+    if (buildNumber == "") {
+        buildNumber = System.getenv("bamboo_buildNumber") != null ? System.getenv("bamboo_buildNumber") : ""
+    }
+    return buildNumber
+}
