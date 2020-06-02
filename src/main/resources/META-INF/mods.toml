@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Brass-Goggled-Coders/PatchouliProvider/issues"
+
+[[mods]]
+    modId="patchouli_provider"
+    version="${file.jarVersion}"
+    displayName="Patchouli Provider"
+    authors="SkySom, DivineAspect"
+    description='''
+
+    '''
