@@ -42,7 +42,7 @@ public class FormatHelper {
     }
 
     public static String externalLink(String link, String text) {
-        return wrapTextInFormattingCode("l" + link) + text + endLink();
+        return wrapTextInFormattingCode("l:" + link) + text + endLink();
     }
 
     public static String endLink() {
