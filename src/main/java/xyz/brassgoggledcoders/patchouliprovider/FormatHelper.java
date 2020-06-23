@@ -2,8 +2,6 @@ package xyz.brassgoggledcoders.patchouliprovider;
 
 import net.minecraft.client.settings.KeyBinding;
 
-import static java.lang.String.valueOf;
-
 public class FormatHelper {
     public static String clearFormatting() {
         return wrapTextInFormattingCode("");
