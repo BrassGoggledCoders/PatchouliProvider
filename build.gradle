@@ -14,11 +14,11 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'xyz.brassgoggledcoders'
-version '1.15.2-' + getVersion()
+version '1.16.4-' + getVersion()
 archivesBaseName = "PatchouliProvider"
 
 minecraft {
-    mappings channel: "snapshot", version: "20200530-1.15.1"
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
 }
 
 repositories {
@@ -29,8 +29,8 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.15.2-31.0.14"
-    compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-29.147")
+    minecraft "net.minecraftforge:forge:1.16.4-35.1.13"
+    compile fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
 }
 
 uploadArchives {
@@ -42,7 +42,7 @@ uploadArchives {
 }
 
 String getVersion() {
-    String version = "1.0.0"
+    String version = "1.0.2"
     String branch = project.hasProperty("branch") ? project.branch : ""
 
     if (branch != "") {

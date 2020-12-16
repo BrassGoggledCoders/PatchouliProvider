@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import vazkii.patchouli.api.PatchouliAPI;
+import vazkii.patchouli.common.util.ItemStackUtil;
 import xyz.brassgoggledcoders.patchouliprovider.page.*;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class EntryBuilder {
     }
 
     protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent) {
-        this(id, name, PatchouliAPI.instance.serializeItemStack(icon), parent);
+        this(id, name, ItemStackUtil.serializeStack(icon), parent);
     }
 
     JsonObject toJson() {
@@ -75,7 +75,7 @@ public class EntryBuilder {
         if (extraRecipeMappings != null) {
             JsonObject mappings = new JsonObject();
             for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
-                mappings.addProperty(PatchouliAPI.instance.serializeItemStack(entry.getKey()), entry.getValue());
+                mappings.addProperty(ItemStackUtil.serializeStack(entry.getKey()), entry.getValue());
             }
             json.add("extra_recipe_mappings", mappings);
         }
