@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[31,)"
 issueTrackerURL="https://github.com/Brass-Goggled-Coders/PatchouliProvider/issues"
+license = "MIT"
 
 [[mods]]
     modId="patchouli_provider"
