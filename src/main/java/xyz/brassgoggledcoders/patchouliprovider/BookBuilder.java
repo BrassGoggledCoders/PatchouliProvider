@@ -7,7 +7,9 @@ import vazkii.patchouli.common.util.ItemStackUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -41,6 +43,7 @@ public class BookBuilder {
     private Boolean showToasts;
     private Boolean useBlockyFont;
     private Boolean i18n;
+    private Map<String, String> macros;
 
     protected BookBuilder(String modid, String id, String displayName, String landingText) {
         this(new ResourceLocation(modid, id), displayName, landingText);
@@ -127,6 +130,13 @@ public class BookBuilder {
         }
         if (i18n != null) {
             json.addProperty("i18n", i18n);
+        }
+        if (macros != null) {
+            JsonObject macroObject = new JsonObject();
+            for (Map.Entry<String, String> entry : macros.entrySet()) {
+                macroObject.addProperty(entry.getKey(), entry.getValue());
+            }
+            json.add("macros", macroObject);
         }
         this.serialize(json);
         return json;
@@ -282,6 +292,14 @@ public class BookBuilder {
 
     public BookBuilder setI18n(boolean i18n) {
         this.i18n = i18n;
+        return this;
+    }
+
+    public BookBuilder addMacro(String key, String entry) {
+        if (this.macros == null) {
+            this.macros = new HashMap<>();
+        }
+        this.macros.put(key, entry);
         return this;
     }
 
