@@ -110,6 +110,18 @@ public class EntryBuilder {
         return addPage(new ImagePageBuilder(image, this));
     }
 
+    public RelationsPageBuilder addRelationsPage() {
+        return addPage(new RelationsPageBuilder(this));
+    }
+
+    public QuestPageBuilder addQuestPage() {
+        return addPage(new QuestPageBuilder(this, null));
+    }
+
+    public QuestPageBuilder addQuestPage(ResourceLocation trigger) {
+        return addPage(new QuestPageBuilder(this, trigger));
+    }
+
     public CraftingPageBuilder addCraftingPage(ResourceLocation recipe) {
         return addPage(new CraftingPageBuilder(recipe, this));
     }
