@@ -9,7 +9,7 @@ public class LinkPageBuilder extends AbstractPageBuilder<LinkPageBuilder> {
     private final String linkText;
 
     public LinkPageBuilder(String url, String linkText, EntryBuilder entryBuilder) {
-        super("link", entryBuilder);
+        super("patchouli:link", entryBuilder);
         this.url = url;
         this.linkText = linkText;
     }

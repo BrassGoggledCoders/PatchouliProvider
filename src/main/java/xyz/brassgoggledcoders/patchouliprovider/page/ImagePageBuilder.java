@@ -2,7 +2,7 @@ package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
@@ -16,7 +16,7 @@ public class ImagePageBuilder extends AbstractPageBuilder<ImagePageBuilder> {
     private String text;
 
     public ImagePageBuilder(ResourceLocation image, EntryBuilder parent) {
-        super("image", parent);
+        super("patchouli:image", parent);
         this.images.add(image);
     }
 

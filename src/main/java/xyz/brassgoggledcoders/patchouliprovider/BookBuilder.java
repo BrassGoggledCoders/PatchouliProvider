@@ -1,8 +1,8 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.common.util.ItemStackUtil;
 
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class BookBuilder {
     private Boolean showToasts;
     private Boolean useBlockyFont;
     private Boolean i18n;
+    private Boolean useResourcePack;
     private Map<String, String> macros;
 
     protected BookBuilder(String modid, String id, String displayName, String landingText) {
@@ -130,6 +131,9 @@ public class BookBuilder {
         }
         if (i18n != null) {
             json.addProperty("i18n", i18n);
+        }
+        if (useResourcePack != null) {
+            json.addProperty("use_resource_pack", useResourcePack);
         }
         if (macros != null) {
             JsonObject macroObject = new JsonObject();
@@ -292,6 +296,11 @@ public class BookBuilder {
 
     public BookBuilder setI18n(boolean i18n) {
         this.i18n = i18n;
+        return this;
+    }
+
+    public BookBuilder setUseResourcePack(boolean useResourcePack) {
+        this.useResourcePack = useResourcePack;
         return this;
     }
 

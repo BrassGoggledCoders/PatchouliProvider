@@ -1,7 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 

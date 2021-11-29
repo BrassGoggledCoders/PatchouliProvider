@@ -2,8 +2,8 @@ package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.common.util.ItemStackUtil;
 import xyz.brassgoggledcoders.patchouliprovider.page.*;
 
@@ -32,7 +32,7 @@ public class EntryBuilder {
     protected EntryBuilder(String id, String name, String icon, CategoryBuilder parent) {
         this.id = new ResourceLocation(parent.getId().getNamespace(), id);
         this.name = name;
-        this.category = parent.getId().getPath();
+        this.category = parent.getId().toString();
         this.icon = icon;
         this.parent = parent;
     }
