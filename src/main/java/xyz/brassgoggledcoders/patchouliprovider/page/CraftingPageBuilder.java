@@ -1,10 +1,10 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
 public class CraftingPageBuilder extends RecipePageBuilder<CraftingPageBuilder> {
     public CraftingPageBuilder(ResourceLocation recipe, EntryBuilder entryBuilder) {
-        super("crafting", recipe, entryBuilder);
+        super("patchouli:crafting", recipe, entryBuilder);
     }
 }

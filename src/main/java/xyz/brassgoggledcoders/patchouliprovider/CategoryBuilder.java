@@ -1,8 +1,8 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.common.util.ItemStackUtil;
 
 import java.util.ArrayList;

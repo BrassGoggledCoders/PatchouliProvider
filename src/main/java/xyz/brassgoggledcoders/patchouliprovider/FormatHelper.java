@@ -1,6 +1,6 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.KeyMapping;
 
 public class FormatHelper {
     public static String clearFormatting() {
@@ -51,8 +51,8 @@ public class FormatHelper {
         return wrapTextInFormattingCode("playername");
     }
 
-    public static String keyValueOfKeybind(KeyBinding keyBinding) {
-        return wrapTextInFormattingCode("k:" + keyBinding.getKeyDescription());
+    public static String keyValueOfKeybind(KeyMapping keyBinding) {
+        return wrapTextInFormattingCode("k:" + keyBinding.getName());
     }
 
     public static String tooltip(String tooltip, String text) {

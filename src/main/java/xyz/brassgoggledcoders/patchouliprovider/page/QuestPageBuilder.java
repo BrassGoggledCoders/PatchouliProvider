@@ -1,7 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
@@ -11,7 +11,7 @@ public class QuestPageBuilder extends AbstractPageBuilder<QuestPageBuilder> {
     private String text;
 
     public QuestPageBuilder(EntryBuilder entryBuilder, ResourceLocation trigger) {
-        super("quest", entryBuilder);
+        super("patchouli:quest", entryBuilder);
         this.trigger = trigger;
     }
 

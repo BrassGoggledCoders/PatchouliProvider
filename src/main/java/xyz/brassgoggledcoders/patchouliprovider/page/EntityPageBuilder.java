@@ -1,13 +1,13 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
 public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
     private final String entity;
-    private CompoundNBT nbt;
+    private CompoundTag nbt;
     private Float scale;
     private Float offset;
     private Boolean rotate;
@@ -16,7 +16,7 @@ public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
     private String text;
 
     public EntityPageBuilder(String entity, EntryBuilder entryBuilder) {
-        super("entity", entryBuilder);
+        super("patchouli:entity", entryBuilder);
         this.entity = entity;
     }
 
@@ -43,7 +43,7 @@ public class EntityPageBuilder extends AbstractPageBuilder<EntityPageBuilder> {
         }
     }
 
-    public EntityPageBuilder setEntityNbt(CompoundNBT nbt) {
+    public EntityPageBuilder setEntityNbt(CompoundTag nbt) {
         this.nbt = nbt;
         return this;
     }

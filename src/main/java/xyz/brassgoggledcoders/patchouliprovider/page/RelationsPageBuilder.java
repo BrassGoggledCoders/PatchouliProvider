@@ -2,7 +2,7 @@ package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
@@ -15,7 +15,7 @@ public class RelationsPageBuilder extends AbstractPageBuilder<RelationsPageBuild
     private String text;
 
     public RelationsPageBuilder(EntryBuilder entryBuilder) {
-        super("relations", entryBuilder);
+        super("patchouli:relations", entryBuilder);
     }
 
     @Override

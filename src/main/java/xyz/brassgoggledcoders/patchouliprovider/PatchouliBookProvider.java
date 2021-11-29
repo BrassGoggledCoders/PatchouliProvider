@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.DataProvider;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-public abstract class PatchouliBookProvider implements IDataProvider {
+public abstract class PatchouliBookProvider implements DataProvider {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -35,7 +35,7 @@ public abstract class PatchouliBookProvider implements IDataProvider {
      * @param cache the cache
      */
     @Override
-    public void act(@Nonnull DirectoryCache cache) {
+    public void run(@Nonnull HashCache cache) {
         addBooks(book -> {
             saveBook(cache, book.toJson(), book.getId());
             for (CategoryBuilder category : book.getCategories()) {
@@ -49,34 +49,34 @@ public abstract class PatchouliBookProvider implements IDataProvider {
 
     protected abstract void addBooks(Consumer<BookBuilder> consumer);
 
-    private void saveEntry(DirectoryCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
+    private void saveEntry(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
         Path mainOutput = generator.getOutputFolder();
         String pathSuffix = makeBookPath(bookId) + "/" + locale + "/entries/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
-            IDataProvider.save(GSON, cache, json, outputPath);
+            DataProvider.save(GSON, cache, json, outputPath);
         } catch (IOException e) {
             LOGGER.error("Couldn't save entry to {}", outputPath, e);
         }
     }
 
-    private void saveCategory(DirectoryCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
+    private void saveCategory(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
         Path mainOutput = generator.getOutputFolder();
         String pathSuffix = makeBookPath(bookId) + "/" + locale + "/categories/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
-            IDataProvider.save(GSON, cache, json, outputPath);
+            DataProvider.save(GSON, cache, json, outputPath);
         } catch (IOException e) {
             LOGGER.error("Couldn't save category to {}", outputPath, e);
         }
     }
 
-    private void saveBook(DirectoryCache cache, JsonObject json, ResourceLocation bookId) {
+    private void saveBook(HashCache cache, JsonObject json, ResourceLocation bookId) {
         Path mainOutput = generator.getOutputFolder();
         String pathSuffix = makeBookPath(bookId) + "/book.json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
-            IDataProvider.save(GSON, cache, json, outputPath);
+            DataProvider.save(GSON, cache, json, outputPath);
         } catch (IOException e) {
             LOGGER.error("Couldn't save book to {}", outputPath, e);
         }

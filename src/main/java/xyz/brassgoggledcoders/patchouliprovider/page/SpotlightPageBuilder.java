@@ -1,7 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import vazkii.patchouli.common.util.ItemStackUtil;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
@@ -13,7 +13,7 @@ public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuild
     private String text;
 
     public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent) {
-        super("spotlight", parent);
+        super("patchouli:spotlight", parent);
         this.item = ItemStackUtil.serializeStack(stack);
     }
 
