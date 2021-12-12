@@ -304,6 +304,13 @@ public class BookBuilder {
         return this;
     }
 
+    public boolean getUseResourcePack() {
+        if (this.useResourcePack == null) {
+            return false;
+        }
+        return useResourcePack.booleanValue();
+    }
+
     public BookBuilder addMacro(String key, String entry) {
         if (this.macros == null) {
             this.macros = new HashMap<>();

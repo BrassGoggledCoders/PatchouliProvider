@@ -39,9 +39,9 @@ public abstract class PatchouliBookProvider implements DataProvider {
         addBooks(book -> {
             saveBook(cache, book.toJson(), book.getId());
             for (CategoryBuilder category : book.getCategories()) {
-                saveCategory(cache, category.toJson(), book.getId(), category.getId());
+                saveCategory(cache, category.toJson(), book.getId(), category.getId(), book.getUseResourcePack());
                 for (EntryBuilder entry : category.getEntries()) {
-                    saveEntry(cache, entry.toJson(), book.getId(), entry.getId());
+                    saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), book.getUseResourcePack());
                 }
             }
         });
@@ -49,9 +49,9 @@ public abstract class PatchouliBookProvider implements DataProvider {
 
     protected abstract void addBooks(Consumer<BookBuilder> consumer);
 
-    private void saveEntry(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
+    private void saveEntry(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
         Path mainOutput = generator.getOutputFolder();
-        String pathSuffix = makeBookPath(bookId) + "/" + locale + "/entries/" + id.getPath() + ".json";
+        String pathSuffix = makeBookPath(bookId, useResourcePack) + "/" + locale + "/entries/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
             DataProvider.save(GSON, cache, json, outputPath);
@@ -60,9 +60,9 @@ public abstract class PatchouliBookProvider implements DataProvider {
         }
     }
 
-    private void saveCategory(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id) {
+    private void saveCategory(HashCache cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
         Path mainOutput = generator.getOutputFolder();
-        String pathSuffix = makeBookPath(bookId) + "/" + locale + "/categories/" + id.getPath() + ".json";
+        String pathSuffix = makeBookPath(bookId, useResourcePack) + "/" + locale + "/categories/" + id.getPath() + ".json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
             DataProvider.save(GSON, cache, json, outputPath);
@@ -73,7 +73,8 @@ public abstract class PatchouliBookProvider implements DataProvider {
 
     private void saveBook(HashCache cache, JsonObject json, ResourceLocation bookId) {
         Path mainOutput = generator.getOutputFolder();
-        String pathSuffix = makeBookPath(bookId) + "/book.json";
+        //The book json needs to remain in 'data', see: https://vazkiimods.github.io/Patchouli/docs/upgrading/upgrade-guide-117
+        String pathSuffix = makeBookPath(bookId, false) + "/book.json";
         Path outputPath = mainOutput.resolve(pathSuffix);
         try {
             DataProvider.save(GSON, cache, json, outputPath);
@@ -86,8 +87,9 @@ public abstract class PatchouliBookProvider implements DataProvider {
         return new BookBuilder(modid, id, name, landingText);
     }
 
-    private String makeBookPath(ResourceLocation bookId) {
-        return "data/" + bookId.getNamespace() + "/patchouli_books/" + bookId.getPath();
+    private String makeBookPath(ResourceLocation bookId, boolean useResourcePack) {
+        String location = useResourcePack ? "assets/" : "data/";
+        return location + bookId.getNamespace() + "/patchouli_books/" + bookId.getPath();
     }
 
     /**
