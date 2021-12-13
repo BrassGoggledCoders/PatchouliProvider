@@ -17,14 +17,13 @@ group = 'xyz.brassgoggledcoders'
 archivesBaseName = "PatchouliProvider"
 
 // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings  channel: "${mcp_channel}", version: "${mcp_mappings}"
 }
 
 repositories {
-    mavenCentral()
     maven {
         url = "https://maven.blamejared.com"
     }
@@ -33,7 +32,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.17.1-57-SNAPSHOT")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18-58-SNAPSHOT")
 }
 
 jar {
@@ -80,7 +79,7 @@ publishing {
 }
 
 String getVersion() {
-    String version = "1.0.4"
+    String version = "1.0.5"
     String branch = project.hasProperty("branch") ? project.branch : ""
 
     if (branch != "") {
