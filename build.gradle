@@ -1,16 +1,7 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
+plugins {
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'maven-publish'
 
 version = "${mc_version}" + '-' + getVersion()
 group = 'xyz.brassgoggledcoders'
@@ -79,7 +70,7 @@ publishing {
 }
 
 String getVersion() {
-    String version = "1.0.6"
+    String version = "1.0.7"
     String branch = project.hasProperty("branch") ? project.branch : ""
 
     if (branch != "") {
