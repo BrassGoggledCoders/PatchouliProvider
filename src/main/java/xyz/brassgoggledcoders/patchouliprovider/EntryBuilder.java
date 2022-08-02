@@ -130,6 +130,26 @@ public class EntryBuilder {
         return addPage(new SmeltingPageBuilder(recipe, this));
     }
 
+    public BlastingPageBuilder addBlastingPage(ResourceLocation recipe) {
+        return addPage(new BlastingPageBuilder(recipe, this));
+    }
+
+    public SmokingPageBuilder addSmokingPage(ResourceLocation recipe) {
+        return addPage(new SmokingPageBuilder(recipe, this));
+    }
+
+    public CampfirePageBuilder addCampfirePage(ResourceLocation recipe) {
+        return addPage(new CampfirePageBuilder(recipe, this));
+    }
+
+    public SmithingPageBuilder addSmithingPage(ResourceLocation recipe) {
+        return addPage(new SmithingPageBuilder(recipe, this));
+    }
+
+    public StonecuttingPageBuilder addStonecuttingPage(ResourceLocation recipe) {
+        return addPage(new StonecuttingPageBuilder(recipe, this));
+    }
+
     public EntityPageBuilder addEntityPage(String entity) {
         return addPage(new EntityPageBuilder(entity, this));
     }
