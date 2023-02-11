@@ -70,7 +70,7 @@ publishing {
 }
 
 String getVersion() {
-    String version = "1.0.7"
+    String version = "1.0.8"
     String branch = project.hasProperty("branch") ? project.branch : ""
 
     if (branch != "") {
