@@ -1,9 +1,9 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
-import vazkii.patchouli.common.util.ItemStackUtil;
+import net.minecraft.world.item.ItemStack;
+import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -245,7 +245,7 @@ public class BookBuilder {
     }
 
     public BookBuilder setIndexIcon(ItemStack indexIcon) {
-        this.indexIcon = ItemStackUtil.serializeStack(indexIcon);
+        this.indexIcon = ItemStackHelper.serializeStack(indexIcon);
         return this;
     }
 
@@ -270,7 +270,7 @@ public class BookBuilder {
     }
 
     public BookBuilder setCustomBookItem(ItemStack customBookItem) {
-        this.customBookItem = ItemStackUtil.serializeStack(customBookItem);
+        this.customBookItem = ItemStackHelper.serializeStack(customBookItem);
         return this;
     }
 

@@ -38,6 +38,9 @@ public abstract class PatchouliBookProvider implements DataProvider {
     public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
         List<CompletableFuture<?>> list = new ArrayList<>();
         addBooks(book -> {
+            if(!book.getUseResourcePack()) {
+                LOGGER.warn("Book {} is not using the resource pack. As of Patchouli 1.19.4, this is being deprecated and marked for removal in 1.20. To ensure proper functionality, please consider setting 'useResourcePack' to 'true' by calling 'setUseResourcePack(true)' on the BookBuilder.", book.getId());
+            }
             saveBook(cache, book.toJson(), book.getId());
             for (CategoryBuilder category : book.getCategories()) {
                 list.add(saveCategory(cache, category.toJson(), book.getId(), category.getId(), book.getUseResourcePack()));

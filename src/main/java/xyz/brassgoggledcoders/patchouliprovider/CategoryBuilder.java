@@ -3,7 +3,7 @@ package xyz.brassgoggledcoders.patchouliprovider;
 import com.google.gson.JsonObject;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
-import vazkii.patchouli.common.util.ItemStackUtil;
+import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +23,7 @@ public class CategoryBuilder {
     private Boolean secret;
 
     protected CategoryBuilder(String id, String name, String description, ItemStack icon, BookBuilder bookBuilder) {
-        this(id, name, description, ItemStackUtil.serializeStack(icon), bookBuilder);
+        this(id, name, description, ItemStackHelper.serializeStack(icon), bookBuilder);
     }
 
     protected CategoryBuilder(String id, String name, String description, String icon, BookBuilder bookBuilder) {

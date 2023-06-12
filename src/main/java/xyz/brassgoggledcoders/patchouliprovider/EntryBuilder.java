@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
-import vazkii.patchouli.common.util.ItemStackUtil;
 import xyz.brassgoggledcoders.patchouliprovider.page.*;
+import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class EntryBuilder {
     }
 
     protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent) {
-        this(id, name, ItemStackUtil.serializeStack(icon), parent);
+        this(id, name, ItemStackHelper.serializeStack(icon), parent);
     }
 
     JsonObject toJson() {
@@ -75,7 +75,7 @@ public class EntryBuilder {
         if (extraRecipeMappings != null) {
             JsonObject mappings = new JsonObject();
             for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
-                mappings.addProperty(ItemStackUtil.serializeStack(entry.getKey()), entry.getValue());
+                mappings.addProperty(ItemStackHelper.serializeStack(entry.getKey()), entry.getValue());
             }
             json.add("extra_recipe_mappings", mappings);
         }
