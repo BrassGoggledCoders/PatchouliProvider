@@ -1,17 +1,21 @@
 plugins {
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 version = "${mc_version}" + '-' + getVersion()
 group = 'xyz.brassgoggledcoders'
-archivesBaseName = "PatchouliProvider"
+base {
+    archivesName = "PatchouliProvider"
+}
 
-// Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.withSourcesJar()
+java.withJavadocJar()
 
 minecraft {
-    mappings  channel: "${mcp_channel}", version: "${mcp_mappings}"
+    mappings channel: "${mcp_channel}", version: "${mcp_mappings}"
 }
 
 repositories {
@@ -23,7 +27,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}-FORGE")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}-FORGE-SNAPSHOT")
 }
 
 jar {
@@ -39,14 +43,11 @@ jar {
         ])
     }
 }
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+tasks.named("sourcesJar", Jar) {
+    from(sourceSets.main.allSource)
 }
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+tasks.named("javadocJar") {
+    from(javadoc.destinationDir)
 }
 
 artifacts {
