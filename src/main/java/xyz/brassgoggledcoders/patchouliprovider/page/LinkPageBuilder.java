@@ -31,8 +31,8 @@ public class LinkPageBuilder extends AbstractPageBuilder<LinkPageBuilder> {
     protected void serialize(JsonObject json) {
         json.addProperty("url", url);
         json.addProperty("link_text", linkText);
-        if (title != null) {
-            json.addProperty("text", title);
+        if (text != null) {
+            json.addProperty("text", text);
         }
         if (title != null) {
             json.addProperty("title", title);
