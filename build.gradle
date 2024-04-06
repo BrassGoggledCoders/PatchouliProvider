@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.84'
+    id 'net.neoforged.gradle.userdev' version '7.0.101'
 }
 
 version = "${mc_version}" + '-' + getVersion()
@@ -40,7 +40,7 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE-SNAPSHOT"
+    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
 }
 
 jar {
