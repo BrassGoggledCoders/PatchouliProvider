@@ -1,6 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
@@ -45,15 +46,17 @@ public class BookBuilder {
     private Boolean i18n;
     private Boolean useResourcePack;
     private Map<String, String> macros;
+    private HolderLookup.Provider provider;
 
-    protected BookBuilder(String modid, String id, String displayName, String landingText) {
-        this(new ResourceLocation(modid, id), displayName, landingText);
+    protected BookBuilder(String modid, String id, String displayName, String landingText, HolderLookup.Provider provider) {
+        this(ResourceLocation.fromNamespaceAndPath(modid, id), displayName, landingText, provider);
     }
 
-    protected BookBuilder(ResourceLocation id, String displayName, String landingText) {
+    protected BookBuilder(ResourceLocation id, String displayName, String landingText, HolderLookup.Provider provider) {
         this.id = id;
         this.displayName = displayName;
         this.landingText = landingText;
+        this.provider = provider;
     }
 
     JsonObject toJson() {
@@ -245,7 +248,7 @@ public class BookBuilder {
     }
 
     public BookBuilder setIndexIcon(ItemStack indexIcon) {
-        this.indexIcon = ItemStackHelper.serializeStack(indexIcon);
+        this.indexIcon = ItemStackHelper.serializeStack(indexIcon, provider);
         return this;
     }
 
@@ -270,7 +273,7 @@ public class BookBuilder {
     }
 
     public BookBuilder setCustomBookItem(ItemStack customBookItem) {
-        this.customBookItem = ItemStackHelper.serializeStack(customBookItem);
+        this.customBookItem = ItemStackHelper.serializeStack(customBookItem, provider);
         return this;
     }
 
@@ -317,6 +320,10 @@ public class BookBuilder {
         }
         this.macros.put(key, entry);
         return this;
+    }
+
+    public HolderLookup.Provider getProvider() {
+        return provider;
     }
 
     protected ResourceLocation getId() {

@@ -1,6 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
@@ -23,12 +24,12 @@ public class CategoryBuilder {
     private Boolean secret;
 
     protected CategoryBuilder(String id, String name, String description, ItemStack icon, BookBuilder bookBuilder) {
-        this(id, name, description, ItemStackHelper.serializeStack(icon), bookBuilder);
+        this(id, name, description, ItemStackHelper.serializeStack(icon, bookBuilder.getProvider()), bookBuilder);
     }
 
     protected CategoryBuilder(String id, String name, String description, String icon, BookBuilder bookBuilder) {
         this.bookBuilder = bookBuilder;
-        this.id = new ResourceLocation(bookBuilder.getId().getNamespace(), id);
+        this.id = ResourceLocation.fromNamespaceAndPath(bookBuilder.getId().getNamespace(), id);
         this.name = name;
         this.description = description;
         this.icon = icon;
@@ -67,11 +68,11 @@ public class CategoryBuilder {
     }
 
     public EntryBuilder addEntry(String id, String name, String icon) {
-        return this.addEntry(new EntryBuilder(id, name, icon, this));
+        return this.addEntry(new EntryBuilder(id, name, icon, this, bookBuilder.getProvider()));
     }
 
     public EntryBuilder addEntry(String id, String name, ItemStack icon) {
-        return this.addEntry(new EntryBuilder(id, name, icon, this));
+        return this.addEntry(new EntryBuilder(id, name, icon, this, bookBuilder.getProvider()));
     }
 
     protected EntryBuilder addEntry(EntryBuilder builder) {

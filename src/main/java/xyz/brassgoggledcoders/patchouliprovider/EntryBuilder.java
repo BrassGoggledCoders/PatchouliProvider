@@ -2,6 +2,7 @@ package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import xyz.brassgoggledcoders.patchouliprovider.page.*;
@@ -28,17 +29,19 @@ public class EntryBuilder {
     private Integer sortnum;
     private String turnin;
     private Map<ItemStack, Integer> extraRecipeMappings;
+    private HolderLookup.Provider provider;
 
-    protected EntryBuilder(String id, String name, String icon, CategoryBuilder parent) {
-        this.id = new ResourceLocation(parent.getId().getNamespace(), id);
+    protected EntryBuilder(String id, String name, String icon, CategoryBuilder parent, HolderLookup.Provider provider) {
+        this.id = ResourceLocation.fromNamespaceAndPath(parent.getId().getNamespace(), id);
         this.name = name;
         this.category = parent.getId().toString();
         this.icon = icon;
         this.parent = parent;
+        this.provider = provider;
     }
 
-    protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent) {
-        this(id, name, ItemStackHelper.serializeStack(icon), parent);
+    protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent, HolderLookup.Provider provider) {
+        this(id, name, ItemStackHelper.serializeStack(icon, provider), parent, provider);
     }
 
     JsonObject toJson() {
@@ -75,7 +78,7 @@ public class EntryBuilder {
         if (extraRecipeMappings != null) {
             JsonObject mappings = new JsonObject();
             for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
-                mappings.addProperty(ItemStackHelper.serializeStack(entry.getKey()), entry.getValue());
+                mappings.addProperty(ItemStackHelper.serializeStack(entry.getKey(), provider), entry.getValue());
             }
             json.add("extra_recipe_mappings", mappings);
         }
@@ -159,7 +162,7 @@ public class EntryBuilder {
     }
 
     public SpotlightPageBuilder addSpotlightPage(ItemStack stack) {
-        return addPage(new SpotlightPageBuilder(stack, this));
+        return addPage(new SpotlightPageBuilder(stack, this, provider));
     }
 
     public LinkPageBuilder addLinkPage(String url, String linkText) {

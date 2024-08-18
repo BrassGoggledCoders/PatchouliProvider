@@ -1,25 +1,27 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuilder> {
-    private final String item;
+    private final JsonElement item;
     private String title;
     private Boolean linkRecipe;
     private String text;
 
-    public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent) {
+    public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent, HolderLookup.Provider provider) {
         super("patchouli:spotlight", parent);
-        this.item = ItemStackHelper.serializeStack(stack);
+        this.item = ItemStackHelper.stackToJson(stack, provider);
     }
 
     @Override
     protected void serialize(JsonObject json) {
-        json.addProperty("item", item);
+        json.add("item", item);
         if (title != null) {
             json.addProperty("title", title);
         }

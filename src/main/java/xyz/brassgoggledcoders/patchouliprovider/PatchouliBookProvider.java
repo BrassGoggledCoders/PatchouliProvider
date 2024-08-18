@@ -1,6 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -21,12 +22,14 @@ public abstract class PatchouliBookProvider implements DataProvider {
 
     private final String locale;
     private final String modid;
+    private final CompletableFuture<HolderLookup.Provider> registries;
 
-    public PatchouliBookProvider(PackOutput packOutput, String modid, String locale) {
+    public PatchouliBookProvider(PackOutput packOutput, String modid, String locale, CompletableFuture<HolderLookup.Provider> registries) {
         this.datapackProvider = packOutput.createPathProvider(PackOutput.Target.DATA_PACK, "patchouli_books");
         this.assetsProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "patchouli_books");
         this.modid = modid;
         this.locale = locale;
+        this.registries = registries;
     }
 
     /**
@@ -37,47 +40,49 @@ public abstract class PatchouliBookProvider implements DataProvider {
      */
     @Override
     public CompletableFuture<?> run(@Nonnull CachedOutput cache) {
-        List<CompletableFuture<?>> list = new ArrayList<>();
-        this.addBooks(book -> {
-            if(!book.getUseResourcePack()) {
-                LOGGER.error("Book {} is not using the resource pack. As of Patchouli 1.20 books that aren't located in '.minecraft/patchouli_books' must specify 'use_resource_pack:true'. ", book.getId());
-                LOGGER.error("Please consider setting 'useResourcePack' to 'true' by calling 'setUseResourcePack(true)' on the BookBuilder.");
-            }
-            list.add(saveBook(cache, book.toJson(), book.getId()));
-            for (CategoryBuilder category : book.getCategories()) {
-                list.add(saveCategory(cache, category.toJson(), book.getId(), category.getId(), book.getUseResourcePack()));
-                for (EntryBuilder entry : category.getEntries()) {
-                    list.add(saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), book.getUseResourcePack()));
+        return this.registries.thenCompose(provider -> {
+            List<CompletableFuture<?>> list = new ArrayList<>();
+            this.addBooks(book -> {
+                if(!book.getUseResourcePack()) {
+                    LOGGER.error("Book {} is not using the resource pack. As of Patchouli 1.20 books that aren't located in '.minecraft/patchouli_books' must specify 'use_resource_pack:true'. ", book.getId());
+                    LOGGER.error("Please consider setting 'useResourcePack' to 'true' by calling 'setUseResourcePack(true)' on the BookBuilder.");
                 }
-            }
+                list.add(saveBook(cache, book.toJson(), book.getId()));
+                for (CategoryBuilder category : book.getCategories()) {
+                    list.add(saveCategory(cache, category.toJson(), book.getId(), category.getId(), book.getUseResourcePack()));
+                    for (EntryBuilder entry : category.getEntries()) {
+                        list.add(saveEntry(cache, entry.toJson(), book.getId(), entry.getId(), book.getUseResourcePack()));
+                    }
+                }
+            }, provider);
+            return CompletableFuture.allOf(list.toArray((futures) -> {
+                return new CompletableFuture[futures];
+            }));
         });
-        return CompletableFuture.allOf(list.toArray((p_253414_) -> {
-            return new CompletableFuture[p_253414_];
-        }));
     }
 
-    protected abstract void addBooks(Consumer<BookBuilder> consumer);
+    protected abstract void addBooks(Consumer<BookBuilder> consumer, HolderLookup.Provider provider);
 
     private CompletableFuture<?> saveEntry(CachedOutput cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
         String pathSuffix = bookId.getPath() + "/" + locale + "/entries/" + id.getPath();
         PackOutput.PathProvider provider = useResourcePack ? assetsProvider : datapackProvider;
-        return DataProvider.saveStable(cache, json, provider.json(new ResourceLocation(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, provider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
     private CompletableFuture<?> saveCategory(CachedOutput cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
         String pathSuffix = bookId.getPath() + "/" + locale + "/categories/" + id.getPath();
         PackOutput.PathProvider provider = useResourcePack ? assetsProvider : datapackProvider;
-        return DataProvider.saveStable(cache, json, provider.json(new ResourceLocation(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, provider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
     private CompletableFuture<?> saveBook(CachedOutput cache, JsonObject json, ResourceLocation bookId) {
         //The book json needs to remain in 'data', see: https://vazkiimods.github.io/Patchouli/docs/upgrading/upgrade-guide-117
         String pathSuffix = bookId.getPath() + "/book";
-        return DataProvider.saveStable(cache, json, datapackProvider.json(new ResourceLocation(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, datapackProvider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
-    public BookBuilder createBookBuilder(String id, String name, String landingText) {
-        return new BookBuilder(modid, id, name, landingText);
+    public BookBuilder createBookBuilder(String id, String name, String landingText, HolderLookup.Provider provider) {
+        return new BookBuilder(modid, id, name, landingText, provider);
     }
 
     /**

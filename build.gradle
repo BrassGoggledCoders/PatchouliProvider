@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.101'
+    id 'net.neoforged.gradle.userdev' version '7.0.161'
 }
 
 version = "${mc_version}" + '-' + getVersion()
@@ -12,8 +12,8 @@ base {
     archivesName = "PatchouliProvider"
 }
 
-// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 java.withJavadocJar()
 
@@ -40,7 +40,7 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
+    compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}"
 }
 
 jar {
@@ -84,7 +84,7 @@ publishing {
 }
 
 String getVersion() {
-    String version = "1.0.10"
+    String version = "1.0.11"
     String branch = project.hasProperty("branch") ? project.branch : ""
 
     if (branch != "") {
@@ -109,4 +109,12 @@ static String getBuildNumber() {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
