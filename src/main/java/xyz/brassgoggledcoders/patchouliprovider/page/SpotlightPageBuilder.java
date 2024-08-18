@@ -9,19 +9,19 @@ import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuilder> {
-    private final JsonElement item;
+    private final String item;
     private String title;
     private Boolean linkRecipe;
     private String text;
 
     public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent, HolderLookup.Provider provider) {
         super("patchouli:spotlight", parent);
-        this.item = ItemStackHelper.stackToJson(stack, provider);
+        this.item = ItemStackHelper.serializeStack(stack, provider);
     }
 
     @Override
     protected void serialize(JsonObject json) {
-        json.add("item", item);
+        json.addProperty("item", item);
         if (title != null) {
             json.addProperty("title", title);
         }
