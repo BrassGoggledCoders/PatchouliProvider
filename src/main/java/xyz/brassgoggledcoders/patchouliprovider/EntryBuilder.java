@@ -169,6 +169,14 @@ public class EntryBuilder {
         return addPage(new LinkPageBuilder(url, linkText, this));
     }
 
+    public MultiblockPageBuilder addMultiblockPage(String multiblock, JsonObject multiblockData) {
+        return addPage(new MultiblockPageBuilder(multiblock, multiblockData, this));
+    }
+
+    public MultiblockPageBuilder addMultiblockPage(ResourceLocation multiblock, JsonObject multiblockData) {
+        return addPage(new MultiblockPageBuilder(multiblock.toString(), multiblockData, this));
+    }
+
     public EmptyPageBuilder addEmptyPage() {
         return addPage(new EmptyPageBuilder(true, this));
     }
