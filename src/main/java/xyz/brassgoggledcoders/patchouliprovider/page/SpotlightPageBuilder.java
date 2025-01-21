@@ -1,6 +1,5 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
