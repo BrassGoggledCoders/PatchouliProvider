@@ -8,7 +8,9 @@ import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 @SuppressWarnings("unchecked")
 public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends AbstractPageBuilder<T> {
     private final String recipe;
+    private boolean linkRecipe = true;
     private String recipe2;
+    private boolean linkRecipe2 = true;
     private String title;
     private String text;
 
@@ -20,8 +22,14 @@ public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends 
     @Override
     protected void serialize(JsonObject json) {
         json.addProperty("recipe", recipe);
+        if (!linkRecipe) {
+            json.addProperty("link_recipe", false);
+        }
         if (recipe2 != null) {
             json.addProperty("recipe2", recipe2);
+        }
+        if (!linkRecipe2) {
+            json.addProperty("link_recipe2", false);
         }
         if (title != null) {
             json.addProperty("title", title);
@@ -33,6 +41,16 @@ public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends 
 
     public T setRecipe2(ResourceLocation recipe2) {
         this.recipe2 = recipe2.toString();
+        return (T) this;
+    }
+
+    public T setLinkRecipe(boolean linkRecipe) {
+        this.linkRecipe = linkRecipe;
+        return (T) this;
+    }
+
+    public T setLinkRecipe2(boolean linkRecipe2) {
+        this.linkRecipe2 = linkRecipe2;
         return (T) this;
     }
 
