@@ -1,10 +1,10 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
 public class SmithingPageBuilder extends RecipePageBuilder<SmithingPageBuilder> {
-    public SmithingPageBuilder(ResourceLocation recipe, EntryBuilder entryBuilder) {
+    public SmithingPageBuilder(Identifier recipe, EntryBuilder entryBuilder) {
         super("patchouli:smithing", recipe, entryBuilder);
     }
 }

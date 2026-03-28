@@ -2,7 +2,7 @@ package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RelationsPageBuilder extends AbstractPageBuilder<RelationsPageBuilder> {
-    private final List<ResourceLocation> entries = new ArrayList<>();
+    private final List<Identifier> entries = new ArrayList<>();
     private String title;
     private String text;
 
@@ -21,7 +21,7 @@ public class RelationsPageBuilder extends AbstractPageBuilder<RelationsPageBuild
     @Override
     protected void serialize(JsonObject json) {
         JsonArray entries = new JsonArray();
-        for (ResourceLocation entry : this.entries) {
+        for (Identifier entry : this.entries) {
             entries.add(entry.toString());
         }
         json.add("entries", entries);
@@ -34,7 +34,7 @@ public class RelationsPageBuilder extends AbstractPageBuilder<RelationsPageBuild
         }
     }
 
-    public RelationsPageBuilder addEntry(ResourceLocation entry) {
+    public RelationsPageBuilder addEntry(Identifier entry) {
         entries.add(entry);
         return this;
     }

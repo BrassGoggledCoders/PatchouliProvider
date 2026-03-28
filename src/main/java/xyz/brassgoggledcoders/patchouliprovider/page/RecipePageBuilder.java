@@ -1,7 +1,7 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
@@ -14,7 +14,7 @@ public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends 
     private String title;
     private String text;
 
-    public RecipePageBuilder(String type, ResourceLocation recipe, EntryBuilder parent) {
+    public RecipePageBuilder(String type, Identifier recipe, EntryBuilder parent) {
         super(type, parent);
         this.recipe = recipe.toString();
     }
@@ -39,7 +39,7 @@ public abstract class RecipePageBuilder<T extends RecipePageBuilder<T>> extends 
         }
     }
 
-    public T setRecipe2(ResourceLocation recipe2) {
+    public T setRecipe2(Identifier recipe2) {
         this.recipe2 = recipe2.toString();
         return (T) this;
     }

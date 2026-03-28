@@ -1,10 +1,10 @@
 package xyz.brassgoggledcoders.patchouliprovider.page;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 
 public class SmokingPageBuilder extends RecipePageBuilder<SmokingPageBuilder> {
-    public SmokingPageBuilder(ResourceLocation recipe, EntryBuilder entryBuilder) {
+    public SmokingPageBuilder(Identifier recipe, EntryBuilder entryBuilder) {
         super("patchouli:smoking", recipe, entryBuilder);
     }
 }

@@ -2,8 +2,8 @@ package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStackTemplate;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public class BookBuilder {
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final String displayName;
     private final String landingText;
     private final List<CategoryBuilder> categories = new ArrayList<>();
@@ -46,13 +46,13 @@ public class BookBuilder {
     private Boolean i18n;
     private Boolean useResourcePack;
     private Map<String, String> macros;
-    private HolderLookup.Provider provider;
+    private final HolderLookup.Provider provider;
 
     protected BookBuilder(String modid, String id, String displayName, String landingText, HolderLookup.Provider provider) {
-        this(ResourceLocation.fromNamespaceAndPath(modid, id), displayName, landingText, provider);
+        this(Identifier.fromNamespaceAndPath(modid, id), displayName, landingText, provider);
     }
 
-    protected BookBuilder(ResourceLocation id, String displayName, String landingText, HolderLookup.Provider provider) {
+    protected BookBuilder(Identifier id, String displayName, String landingText, HolderLookup.Provider provider) {
         this.id = id;
         this.displayName = displayName;
         this.landingText = landingText;
@@ -160,7 +160,7 @@ public class BookBuilder {
         consumer.accept(this);
     }
 
-    public CategoryBuilder addCategory(String id, String name, String description, ItemStack icon) {
+    public CategoryBuilder addCategory(String id, String name, String description, ItemStackTemplate icon) {
         return this.addCategory(new CategoryBuilder(id, name, description, icon, this));
     }
 
@@ -188,7 +188,7 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder setModel(ResourceLocation model) {
+    public BookBuilder setModel(Identifier model) {
         return this.setModel(model.toString());
     }
 
@@ -247,7 +247,7 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder setIndexIcon(ItemStack indexIcon) {
+    public BookBuilder setIndexIcon(ItemStackTemplate indexIcon) {
         this.indexIcon = ItemStackHelper.serializeStack(indexIcon, provider);
         return this;
     }
@@ -272,7 +272,7 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder setCustomBookItem(ItemStack customBookItem) {
+    public BookBuilder setCustomBookItem(ItemStackTemplate customBookItem) {
         this.customBookItem = ItemStackHelper.serializeStack(customBookItem, provider);
         return this;
     }
@@ -326,7 +326,7 @@ public class BookBuilder {
         return provider;
     }
 
-    protected ResourceLocation getId() {
+    protected Identifier getId() {
         return id;
     }
 

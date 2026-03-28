@@ -1,8 +1,8 @@
 package xyz.brassgoggledcoders.patchouliprovider;
 
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStackTemplate;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class CategoryBuilder {
 
     private final BookBuilder bookBuilder;
-    private final ResourceLocation id;
+    private final Identifier id;
     private final String name;
     private final String description;
     private final String icon;
@@ -22,13 +22,13 @@ public class CategoryBuilder {
     private Integer sortnum;
     private Boolean secret;
 
-    protected CategoryBuilder(String id, String name, String description, ItemStack icon, BookBuilder bookBuilder) {
+    protected CategoryBuilder(String id, String name, String description, ItemStackTemplate icon, BookBuilder bookBuilder) {
         this(id, name, description, ItemStackHelper.serializeStack(icon, bookBuilder.getProvider()), bookBuilder);
     }
 
     protected CategoryBuilder(String id, String name, String description, String icon, BookBuilder bookBuilder) {
         this.bookBuilder = bookBuilder;
-        this.id = ResourceLocation.fromNamespaceAndPath(bookBuilder.getId().getNamespace(), id);
+        this.id = Identifier.fromNamespaceAndPath(bookBuilder.getId().getNamespace(), id);
         this.name = name;
         this.description = description;
         this.icon = icon;
@@ -70,7 +70,7 @@ public class CategoryBuilder {
         return this.addEntry(new EntryBuilder(id, name, icon, this, bookBuilder.getProvider()));
     }
 
-    public EntryBuilder addEntry(String id, String name, ItemStack icon) {
+    public EntryBuilder addEntry(String id, String name, ItemStackTemplate icon) {
         return this.addEntry(new EntryBuilder(id, name, icon, this, bookBuilder.getProvider()));
     }
 
@@ -104,7 +104,7 @@ public class CategoryBuilder {
         return this;
     }
 
-    protected ResourceLocation getId() {
+    protected Identifier getId() {
         return id;
     }
 }

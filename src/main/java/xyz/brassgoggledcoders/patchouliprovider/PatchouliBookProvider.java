@@ -5,7 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -63,22 +63,22 @@ public abstract class PatchouliBookProvider implements DataProvider {
 
     protected abstract void addBooks(Consumer<BookBuilder> consumer, HolderLookup.Provider provider);
 
-    private CompletableFuture<?> saveEntry(CachedOutput cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
+    private CompletableFuture<?> saveEntry(CachedOutput cache, JsonObject json, Identifier bookId, Identifier id, boolean useResourcePack) {
         String pathSuffix = bookId.getPath() + "/" + locale + "/entries/" + id.getPath();
         PackOutput.PathProvider provider = useResourcePack ? assetsProvider : datapackProvider;
-        return DataProvider.saveStable(cache, json, provider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, provider.json(Identifier.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
-    private CompletableFuture<?> saveCategory(CachedOutput cache, JsonObject json, ResourceLocation bookId, ResourceLocation id, boolean useResourcePack) {
+    private CompletableFuture<?> saveCategory(CachedOutput cache, JsonObject json, Identifier bookId, Identifier id, boolean useResourcePack) {
         String pathSuffix = bookId.getPath() + "/" + locale + "/categories/" + id.getPath();
         PackOutput.PathProvider provider = useResourcePack ? assetsProvider : datapackProvider;
-        return DataProvider.saveStable(cache, json, provider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, provider.json(Identifier.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
-    private CompletableFuture<?> saveBook(CachedOutput cache, JsonObject json, ResourceLocation bookId) {
+    private CompletableFuture<?> saveBook(CachedOutput cache, JsonObject json, Identifier bookId) {
         //The book json needs to remain in 'data', see: https://vazkiimods.github.io/Patchouli/docs/upgrading/upgrade-guide-117
         String pathSuffix = bookId.getPath() + "/book";
-        return DataProvider.saveStable(cache, json, datapackProvider.json(ResourceLocation.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
+        return DataProvider.saveStable(cache, json, datapackProvider.json(Identifier.fromNamespaceAndPath(bookId.getNamespace(), pathSuffix)));
     }
 
     public BookBuilder createBookBuilder(String id, String name, String landingText, HolderLookup.Provider provider) {

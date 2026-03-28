@@ -3,8 +3,8 @@ package xyz.brassgoggledcoders.patchouliprovider;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStackTemplate;
 import xyz.brassgoggledcoders.patchouliprovider.page.*;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 public class EntryBuilder {
 
     private final CategoryBuilder parent;
-    private final ResourceLocation id;
+    private final Identifier id;
     private final String name;
     private final String category;
     private final String icon;
@@ -28,11 +28,11 @@ public class EntryBuilder {
     private Boolean readByDefault;
     private Integer sortnum;
     private String turnin;
-    private Map<ItemStack, Integer> extraRecipeMappings;
-    private HolderLookup.Provider provider;
+    private Map<ItemStackTemplate, Integer> extraRecipeMappings;
+    private final HolderLookup.Provider provider;
 
     protected EntryBuilder(String id, String name, String icon, CategoryBuilder parent, HolderLookup.Provider provider) {
-        this.id = ResourceLocation.fromNamespaceAndPath(parent.getId().getNamespace(), id);
+        this.id = Identifier.fromNamespaceAndPath(parent.getId().getNamespace(), id);
         this.name = name;
         this.category = parent.getId().toString();
         this.icon = icon;
@@ -40,7 +40,7 @@ public class EntryBuilder {
         this.provider = provider;
     }
 
-    protected EntryBuilder(String id, String name, ItemStack icon, CategoryBuilder parent, HolderLookup.Provider provider) {
+    protected EntryBuilder(String id, String name, ItemStackTemplate icon, CategoryBuilder parent, HolderLookup.Provider provider) {
         this(id, name, ItemStackHelper.serializeStack(icon, provider), parent, provider);
     }
 
@@ -77,7 +77,7 @@ public class EntryBuilder {
         }
         if (extraRecipeMappings != null) {
             JsonObject mappings = new JsonObject();
-            for (Map.Entry<ItemStack, Integer> entry : extraRecipeMappings.entrySet()) {
+            for (Map.Entry<ItemStackTemplate, Integer> entry : extraRecipeMappings.entrySet()) {
                 mappings.addProperty(ItemStackHelper.serializeStack(entry.getKey(), provider), entry.getValue());
             }
             json.add("extra_recipe_mappings", mappings);
@@ -109,7 +109,7 @@ public class EntryBuilder {
         return addPage(new TextPageBuilder(text, title, this));
     }
 
-    public ImagePageBuilder addImagePage(ResourceLocation image) {
+    public ImagePageBuilder addImagePage(Identifier image) {
         return addPage(new ImagePageBuilder(image, this));
     }
 
@@ -121,35 +121,35 @@ public class EntryBuilder {
         return addPage(new QuestPageBuilder(this, null));
     }
 
-    public QuestPageBuilder addQuestPage(ResourceLocation trigger) {
+    public QuestPageBuilder addQuestPage(Identifier trigger) {
         return addPage(new QuestPageBuilder(this, trigger));
     }
 
-    public CraftingPageBuilder addCraftingPage(ResourceLocation recipe) {
+    public CraftingPageBuilder addCraftingPage(Identifier recipe) {
         return addPage(new CraftingPageBuilder(recipe, this));
     }
 
-    public SmeltingPageBuilder addSmeltingPage(ResourceLocation recipe) {
+    public SmeltingPageBuilder addSmeltingPage(Identifier recipe) {
         return addPage(new SmeltingPageBuilder(recipe, this));
     }
 
-    public BlastingPageBuilder addBlastingPage(ResourceLocation recipe) {
+    public BlastingPageBuilder addBlastingPage(Identifier recipe) {
         return addPage(new BlastingPageBuilder(recipe, this));
     }
 
-    public SmokingPageBuilder addSmokingPage(ResourceLocation recipe) {
+    public SmokingPageBuilder addSmokingPage(Identifier recipe) {
         return addPage(new SmokingPageBuilder(recipe, this));
     }
 
-    public CampfirePageBuilder addCampfirePage(ResourceLocation recipe) {
+    public CampfirePageBuilder addCampfirePage(Identifier recipe) {
         return addPage(new CampfirePageBuilder(recipe, this));
     }
 
-    public SmithingPageBuilder addSmithingPage(ResourceLocation recipe) {
+    public SmithingPageBuilder addSmithingPage(Identifier recipe) {
         return addPage(new SmithingPageBuilder(recipe, this));
     }
 
-    public StonecuttingPageBuilder addStonecuttingPage(ResourceLocation recipe) {
+    public StonecuttingPageBuilder addStonecuttingPage(Identifier recipe) {
         return addPage(new StonecuttingPageBuilder(recipe, this));
     }
 
@@ -157,11 +157,11 @@ public class EntryBuilder {
         return addPage(new EntityPageBuilder(entity, this));
     }
 
-    public EntityPageBuilder addEntityPage(ResourceLocation entity) {
+    public EntityPageBuilder addEntityPage(Identifier entity) {
         return addEntityPage(entity.toString());
     }
 
-    public SpotlightPageBuilder addSpotlightPage(ItemStack stack) {
+    public SpotlightPageBuilder addSpotlightPage(ItemStackTemplate stack) {
         return addPage(new SpotlightPageBuilder(stack, this, provider));
     }
 
@@ -173,7 +173,7 @@ public class EntryBuilder {
         return addPage(new MultiblockPageBuilder(multiblock, multiblockData, this));
     }
 
-    public MultiblockPageBuilder addMultiblockPage(ResourceLocation multiblock, JsonObject multiblockData) {
+    public MultiblockPageBuilder addMultiblockPage(Identifier multiblock, JsonObject multiblockData) {
         return addPage(new MultiblockPageBuilder(multiblock.toString(), multiblockData, this));
     }
 
@@ -225,7 +225,7 @@ public class EntryBuilder {
         return this;
     }
 
-    public EntryBuilder addExtraRecipeMapping(ItemStack stack, int index) {
+    public EntryBuilder addExtraRecipeMapping(ItemStackTemplate stack, int index) {
         if (this.extraRecipeMappings == null) {
             this.extraRecipeMappings = new HashMap<>();
         }
@@ -233,7 +233,7 @@ public class EntryBuilder {
         return this;
     }
 
-    protected ResourceLocation getId() {
+    protected Identifier getId() {
         return id;
     }
 }

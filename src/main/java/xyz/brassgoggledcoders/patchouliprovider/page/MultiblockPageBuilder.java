@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class MultiblockPageBuilder extends AbstractPageBuilder<MultiblockPageBuilder> {
     private final String multiblockId;
-    private JsonObject multiblock;
+    private final JsonObject multiblock;
     private Boolean enableVisualize = true;
     private String name;
     private String text;

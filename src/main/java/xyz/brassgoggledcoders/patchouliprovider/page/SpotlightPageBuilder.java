@@ -2,7 +2,7 @@ package xyz.brassgoggledcoders.patchouliprovider.page;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import xyz.brassgoggledcoders.patchouliprovider.AbstractPageBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.EntryBuilder;
 import xyz.brassgoggledcoders.patchouliprovider.util.ItemStackHelper;
@@ -13,7 +13,7 @@ public class SpotlightPageBuilder extends AbstractPageBuilder<SpotlightPageBuild
     private Boolean linkRecipe;
     private String text;
 
-    public SpotlightPageBuilder(ItemStack stack, EntryBuilder parent, HolderLookup.Provider provider) {
+    public SpotlightPageBuilder(ItemStackTemplate stack, EntryBuilder parent, HolderLookup.Provider provider) {
         super("patchouli:spotlight", parent);
         this.item = ItemStackHelper.serializeStack(stack, provider);
     }
